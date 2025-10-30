@@ -3,7 +3,7 @@ name: CI/CD DevOps Microservice
 on:
   push:
     branches:
-      - main   # Se ejecuta cuando hay push en la rama main
+      - master   # Se ejecuta cuando hay push en la rama main
 
 jobs:
   build-and-deploy:
