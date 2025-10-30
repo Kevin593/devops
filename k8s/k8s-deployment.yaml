@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-microservice-deployment
+  labels:
+    app: devops-microservice
+spec:
+  replicas: 2  # Mínimo dos pods para cumplir con la regla de nodos redundantes
+  selector:
+    matchLabels:
+      app: devops-microservice
+  template:
+    metadata:
+      labels:
+        app: devops-microservice
+    spec:
+      containers:
+      - name: devops-microservice
+        image: kevin593/devops-microservice:latest  # Tu imagen en Docker Hub
+        ports:
+        - containerPort: 8080
+        env:
+        - name: API_KEY
+          value: "2f5ae96c-b558-4c7b-a590-a501ae1c3f6c"
+        - name: JWT_SECRET
+          value: "SuperSecretKeyForDevOps"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devops-microservice-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: devops-microservice
+  ports:
+  - protocol: TCP
+    port: 8080       # Puerto expuesto por el Service
+    targetPort: 8080 # Puerto del contenedor
